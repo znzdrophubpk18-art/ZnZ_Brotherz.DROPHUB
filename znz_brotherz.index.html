@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Luxora Premium</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}body{background:#0c0c0c;color:#fff}
+header{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 28px;background:rgba(10,10,10,.95);backdrop-filter:blur(10px);border-bottom:1px solid #ff7a00}
+.logo{font-size:30px;font-weight:800;color:#ff7a00}.cartbtn{background:#ff7a00;color:#111;padding:10px 18px;border-radius:30px;cursor:pointer;font-weight:700}
+.hero{padding:90px 20px;text-align:center;background:radial-gradient(circle at top,#4a2500,#0c0c0c)}.hero h1{font-size:58px;color:#ff9a2f}.hero p{color:#ddd;margin:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;padding:35px}
+.card{background:#171717;border:1px solid #2b2b2b;border-radius:18px;overflow:hidden;transition:.3s}.card:hover{transform:translateY(-8px);box-shadow:0 0 25px rgba(255,122,0,.4)}
+.card img{width:100%;height:220px;object-fit:cover}.info{padding:16px}.price{color:#ff7a00;font-size:24px}.btn{padding:10px 14px;margin-top:8px;border:none;border-radius:8px;background:#ff7a00;color:#111;font-weight:bold;cursor:pointer}
+#drawer{position:fixed;right:-360px;top:0;width:340px;height:100%;background:#121212;padding:20px;transition:.3s;overflow:auto;box-shadow:-10px 0 30px #000}
+.close{float:right;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
+.review{background:#171717;margin:12px;padding:16px;border-left:4px solid #ff7a00;border-radius:10px}
+input,textarea{width:100%;padding:10px;margin:8px 0;background:#222;color:#fff;border:1px solid #333}
+footer{text-align:center;padding:30px;color:#aaa}
+</style></head><body>
+<header><div class=logo>Luxury Product</div><div class=cartbtn onclick='toggleCart()'>🛒 Cart (<span id=n>0</span>)</div></header>
+<section class=hero><h1>ZnZ Brotherz DROPHUB</h1><p>Elegant. Premium. Modern.</p></section>
+<div class=grid id=products></div>
+<h2 style='padding:20px;color:#ff7a00'>Customer Reviews</h2>
+<div id=reviews><div class=review>⭐⭐⭐⭐⭐ <b>Ali Khan</b><br>Amazing quality and premium look.</div><div class=review>⭐⭐⭐⭐⭐ <b>Ahsan Raza</b><br>Fast delivery and excellent support.</div></div>
+<div style='padding:20px'><input id=name placeholder='Your name'><textarea id=msg placeholder='Write a review'></textarea><button class=btn onclick='addReview()'>Submit Review</button></div>
+<div id=drawer><button class=close onclick='toggleCart()'>&times;</button><h2>Shopping Cart</h2><div id=list></div><h3>Total: Rs.<span id=total>0</span></h3><button class=btn onclick='checkout()'>Purchase</button></div>
+<footer>© Luxora Premium Store</footer>
+<script>
+const items=[['Watch',2500],['Shoes',4500],['Headphones',3200]];let cart=[];
+products.innerHTML=items.map((p,i)=>`<div class=card><img src='https://picsum.photos/500/350?${i+1}'><div class=info><h3>${p[0]}</h3><div class=price>Rs.${p[1]}</div><button class=btn onclick='add(${i})'>Add to Cart</button> <button class=btn onclick='buy(${i})'>Buy Now</button></div></div>`).join('');
+function toggleCart(){drawer.style.right=drawer.style.right==='0px'?'-360px':'0px';render()}
+function add(i){cart.push(items[i]);render()}
+function render(){n.textContent=cart.length;let t=0;list.innerHTML=cart.map((x,j)=>{t+=x[1];return `<p>${x[0]} - Rs.${x[1]} <button onclick='cart.splice(${j},1);render()'>❌</button></p>`}).join('');total.textContent=t}
+function buy(i){cart=[items[i]];checkout()}
+function checkout(){if(!cart.length)return alert('Cart empty');let m='Hello,%0AOrder:%0A',t=0;cart.forEach(x=>{m+=x[0]+' Rs.'+x[1]+'%0A';t+=x[1]});m+='%0ATotal: Rs.'+t;open('https://wa.me/923410502701?text='+m)}
+function addReview(){if(!name.value||!msg.value)return;reviews.innerHTML+=`<div class=review>⭐⭐⭐⭐⭐ <b>${name.value}</b><br>${msg.value}</div>`;name.value='';msg.value='';}
+</script></body></html>
