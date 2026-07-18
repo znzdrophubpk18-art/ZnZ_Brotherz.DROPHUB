@@ -24,12 +24,248 @@ footer{text-align:center;padding:30px;color:#aaa}
 <div id=drawer><button class=close onclick='toggleCart()'>&times;</button><h2>Shopping Cart</h2><div id=list></div><h3>Total: Rs.<span id=total>0</span></h3><button class=btn onclick='checkout()'>Purchase</button></div>
 <footer>© Luxora Premium Store</footer>
 <script>
-const items=[['Watch',2500],['Shoes',4500],['Headphones',3200]];let cart=[];
-products.innerHTML=items.map((p,i)=>`<div class=card><img src='https://picsum.photos/500/350?${i+1}'><div class=info><h3>${p[0]}</h3><div class=price>Rs.${p[1]}</div><button class=btn onclick='add(${i})'>Add to Cart</button> <button class=btn onclick='buy(${i})'>Buy Now</button></div></div>`).join('');
-function toggleCart(){drawer.style.right=drawer.style.right==='0px'?'-360px':'0px';render()}
-function add(i){cart.push(items[i]);render()}
-function render(){n.textContent=cart.length;let t=0;list.innerHTML=cart.map((x,j)=>{t+=x[1];return `<p>${x[0]} - Rs.${x[1]} <button onclick='cart.splice(${j},1);render()'>❌</button></p>`}).join('');total.textContent=t}
-function buy(i){cart=[items[i]];checkout()}
-function checkout(){if(!cart.length)return alert('Cart empty');let m='Hello,%0AOrder:%0A',t=0;cart.forEach(x=>{m+=x[0]+' Rs.'+x[1]+'%0A';t+=x[1]});m+='%0ATotal: Rs.'+t;open('https://wa.me/923410502701?text='+m)}
-function addReview(){if(!name.value||!msg.value)return;reviews.innerHTML+=`<div class=review>⭐⭐⭐⭐⭐ <b>${name.value}</b><br>${msg.value}</div>`;name.value='';msg.value='';}
-</script></body></html>
+const products = [
+{
+name: "Luxury Smart Watch",
+price: 3499,
+image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&auto=format&fit=crop"
+},
+{
+name: "Wireless Earbuds",
+price: 2899,
+image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30?w=700&auto=format&fit=crop"
+},
+{
+name: "Running Shoes",
+price: 5299,
+image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=700&auto=format&fit=crop"
+}
+];
+
+let cart = [];
+
+const productsBox = document.getElementById("products");
+
+productsBox.innerHTML = "";
+
+products.forEach((item,index)=>{
+
+productsBox.innerHTML += `
+<div class="card">
+
+<img src="${item.image}" alt="${item.name}">
+
+<h3>${item.name}</h3>
+
+<p style="color:#ff7a00;font-size:22px;">
+Rs. ${item.price}
+</p>
+
+<button class="orange"
+onclick="addCart(${index})">
+Add to Cart
+</button>
+
+<button class="orange"
+onclick="quickView(${index})">
+View
+</button>
+
+<button class="orange"
+onclick="buyNow(${index})">
+Buy Now
+</button>
+
+</div>
+`;
+
+});
+
+function addCart(index){
+
+cart.push(products[index]);
+
+updateCart();
+
+alert("Added to cart");
+
+}
+
+function buyNow(index){
+
+cart=[products[index]];
+
+updateCart();
+
+checkout();
+
+}
+
+function updateCart(){
+
+cnt.innerHTML=cart.length;
+
+let total=0;
+
+list.innerHTML="";
+
+cart.forEach((item,index)=>{
+
+total+=item.price;
+
+list.innerHTML+=`
+<div style="margin-bottom:12px">
+
+<b>${item.name}</b>
+
+<br>
+
+Rs.${item.price}
+
+<button
+style="float:right"
+onclick="removeItem(${index})">
+
+❌
+
+</button>
+
+</div>
+`;
+
+});
+
+tot.innerHTML=total;
+
+}
+
+function removeItem(index){
+
+cart.splice(index,1);
+
+updateCart();
+
+}
+
+function toggleCart(){
+
+const drawer=document.getElementById("cart");
+
+drawer.style.right=
+
+drawer.style.right==="0px"
+
+?
+
+"-320px"
+
+:
+
+"0px";
+
+}
+
+function checkout(){
+
+if(cart.length===0){
+
+alert("Your cart is empty.");
+
+return;
+
+}
+
+let total=0;
+
+let message="Hello,%0AI want to order:%0A%0A";
+
+cart.forEach(item=>{
+
+message+=item.name+" - Rs."+item.price+"%0A";
+
+total+=item.price;
+
+});
+
+message+="%0ATotal : Rs."+total;
+
+window.open(
+
+"https://wa.me/923410502701?text="+message,
+
+"_blank"
+
+);
+
+}
+
+function quickView(index){
+
+box.innerHTML=`
+
+<img
+src="${products[index].image}"
+style="width:100%;border-radius:10px;">
+
+<h2>${products[index].name}</h2>
+
+<h3 style="color:#ff7a00;">
+
+Rs.${products[index].price}
+
+</h3>
+
+<p>
+
+Premium quality product.
+
+Fast Delivery.
+
+100% Original.
+
+</p>
+
+`;
+
+modal.style.display="block";
+
+}
+
+function hide(){
+
+modal.style.display="none";
+
+}
+
+function addReview(){
+
+if(n.value==""||t.value==""){
+
+alert("Write your review.");
+
+return;
+
+}
+
+reviews.innerHTML+=`
+
+<div class="review">
+
+⭐⭐⭐⭐⭐
+
+<b>${n.value}</b>
+
+<br>
+
+${t.value}
+
+</div>
+
+`;
+
+n.value="";
+
+t.value="";
+
+}
+</script>
